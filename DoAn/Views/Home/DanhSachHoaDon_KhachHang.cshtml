@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "DanhSachHoaDon_KhachHang";
+    Layout = "~/Views/Shared/NguoiDung.cshtml";
+}
+
+@model List<DoAn.Models.Model.NguoiDung.HoaDonBanModel>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            
+
+            <div class="container mt-3 donhang-khachhang">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">Đơn hàng đã thanh toán</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu1">Đơn hàng chưa thanh toán</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="home" class="container tab-pane active">
+                        <br>
+                        <h5>Đơn hàng đã thanh toán</h5>
+                        <div>
+                            <table width="100%" class="table table-bordered">
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Vận chuyển</th>
+                                    <th></th>
+
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    if (item.DaThanhToan == 1)
+                                    {
+                                        <tr>
+                                            <td class="table-center">@String.Format("{0:dd/M/yyyy: h:m}", item.NgayBan)</td>
+                                            <td class="table-center">@item.TongSoSanPham</td>
+                                            <td class="table-center">@String.Format("{0:0,0}", item.TongTienHoaDon)đ</td>
+                                            <td class="table-center">@item.DiaChi</td>
+                                            <td class="table-center"><span class="btn-success">đã giao hàng</span></td>
+                                            <td class="table-center"><a href="/Home/ChiTietHoaDon_NguoiDung?mahoadon=@item.Id" class="btn btn-success">xem chi tiết</a></td>
+
+                                        </tr>
+                                    }
+
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <div id="menu1" class="container tab-pane fade">
+                        <br>
+                        <h5>Đơn hàng chưa thanh toán</h5>
+                        <div>
+                            <table width="100%" class="table table-bordered">
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Vận chuyển</th>
+                                    <th></th>
+
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    if (item.DaThanhToan == 0)
+                                    {
+                                        <tr>
+                                            <td class="table-center">@String.Format("{0:dd/M/yyyy: h:m}", item.NgayBan)</td>
+                                            <td class="table-center">@item.TongSoSanPham</td>
+                                            <td class="table-center">@String.Format("{0:0,0}", item.TongTienHoaDon)đ</td>
+                                            <td class="table-center">@item.DiaChi</td>
+                                            <td class="table-center"><span class="btn-warning">chưa giao hàng</span></td>
+                                            <td class="table-center"><a href="/Home/ChiTietHoaDon_NguoiDung?mahoadon=@item.Id" class="btn btn-success">xem chi tiết</a></td>
+
+                                        </tr>
+                                    }
+
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            @*<div>
+                <table width="100%" class="table table-bordered">
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Số lượng</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Vận chuyển</th>
+                        <th></th>
+
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="table-center">@String.Format("{0:dd/M/yyyy: h:m}", item.NgayBan)</td>
+                            <td class="table-center">@item.TongSoSanPham</td>
+                            <td class="table-center">@String.Format("{0:0,0}", item.TongTien)đ</td>
+                            @if (item.Status == 0)
+                            {
+                                <td class="table-center"><span class="btn-warning">đang xử lý</span></td>
+                            }
+                            else
+                            {
+                                <td class="table-center"><span class="btn-success">đã xử lý</span></td>
+                            }
+                            @if (item.Status == 0 && item.DaThanhToan == 0)
+                            {
+                                <td class="table-center"><span class="btn-danger">chưa giao</span></td>
+                            }
+                            else if (item.DaThanhToan == 0 && item.Status == 1)
+                            {
+                                <td class="table-center"><span class="btn-warning">đang giao</span></td>
+                            }
+                            else
+                            {
+                                <td class="table-center"><span class="btn-success">đã thanh toán</span></td>
+                            }
+                            <td class="table-center"><a href="/Home/ChiTietHoaDon_NguoiDung?mahoadon=@item.Id" class="btn btn-success">xem chi tiết</a></td>
+
+                        </tr>
+                    }
+                </table>
+            </div>*@
+            <br />
+        </div>
+
+    </div>
+    
+</div>
+

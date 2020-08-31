@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "ChiTietHoaDon_NguoiDung";
+    Layout = "~/Views/Shared/NguoiDung.cshtml";
+}
+
+@model List<DoAn.Models.Model.NhanVien.CTHDBanModel>
+<hr />
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-11">
+
+            @if (ViewBag.TinhTrang == 1)
+            {
+                <div class="progress" style="height:25px;">
+                    <div class="progress-bar bg-danger progress-bar-striped" style="width:33%">
+                        đang xử lý
+                    </div>
+                    <div class="progress-bar bg-dark progress-bar-striped" style="width:33%">
+                        chưa giao hàng
+                    </div>
+                    <div class="progress-bar bg-dark progress-bar-striped" style="width:34%">
+                        chưa thanh toán
+                    </div>
+                </div>
+            }
+            @if (ViewBag.TinhTrang == 2)
+            {
+                <div class="progress" style="height:25px;">
+                    <div class="progress-bar bg-danger progress-bar-striped" style="width:33%">
+                        đã xử lý
+                    </div>
+                    <div class="progress-bar bg-warning progress-bar-striped" style="width:33%">
+                        đang giao hàng
+                    </div>
+                    <div class="progress-bar bg-dark progress-bar-striped" style="width:34%; background-color:silver;">
+                        chưa thanh toán
+                    </div>
+                </div>
+            }
+            @if (ViewBag.TinhTrang == 3)
+            {
+                <div class="progress" style="height:25px;">
+                    <div class="progress-bar bg-danger progress-bar-striped" style="width:33%">
+                        đã xử lý
+                    </div>
+                    <div class="progress-bar bg-warning progress-bar-striped" style="width:33%">
+                        đã giao hàng
+                    </div>
+                    <div class="progress-bar bg-success progress-bar-striped" style="width:34%">
+                        đã thanh toán
+                    </div>
+                </div>
+            }
+
+
+        
+            <div class="thanhtoan-hd">
+                <br />
+                <h5>CHI TIẾT HÓA ĐƠN</h5>
+            </div>
+            <table class="table table-bordered">
+
+                <tr>
+                    <th class="table-center">STT</th>
+                    <th class="table-center">Tên sản phẩm</th>
+                    <th class="table-center">Giá bán</th>
+                    <th class="table-center">Số lượng</th>
+                    <th class="table-center">Thành tiền</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td class="table-center">
+                            @if (item.STT != 0)
+                            {
+                                @item.STT
+                            }
+
+                        </td>
+                        <td class="table-bold">@item.TenSanPham</td>
+                        <td class="table-center">
+                            @if (item.GiaBan == 0)
+                            {
+                                <span>0đ</span>
+                            }
+                            else
+                            {
+                                <span>@String.Format("{0:0,0}", @item.GiaBan)đ</span>
+                            }
+                        </td>
+                        <td class="table-center">@item.SoLuong</td>
+                        <td class="table-center">
+                            @if (item.ThanhTien == 0)
+                            {
+                                <span>0đ</span>
+                            }
+                            else
+                            {
+                                <span>@String.Format("{0:0,0}", @item.ThanhTien)đ</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="table-center">Tổng tiền</td>
+                    <td class="table-center">
+                        @String.Format("{0:0,0}", @Model.Sum(x => x.ThanhTien))đ
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="table-center">Phí ship</td>
+                    <td class="table-center">
+                        @String.Format("{0:0,0}", @ViewBag.PhiShip)đ
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="table-center">Tổng tiền hoá đơn</td>
+                    <td class="table-center">
+                        @String.Format("{0:0,0}", @ViewBag.TongTien_HoaDonBan)đ
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-1">
+           
+            
+            <a href="/Home/DanhSachHoaDon_KhachHang" class="btn btn-primary">Quay lại</a>
+        </div>
+    </div>
+</div>
+<br />
+

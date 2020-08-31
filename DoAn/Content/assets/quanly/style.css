@@ -1,0 +1,29 @@
+﻿body {
+}
+.quanly{
+    background-color:cadetblue;
+    height: 40px;
+    line-height:40px;
+}
+.quanly ul li{
+    list-style:none;
+    display:inline-block;
+}
+.quanly ul li:hover {
+    background-color:brown;
+}
+.quanly ul li a {
+    color: white;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.quanly ul li a:hover{
+    text-decoration:none;
+}
+.nguyenlieu-quanly{
+    margin-bottom:15px;
+}
+
+.nguyenlieu-quanly .tendonvi{
+    color:red;
+}

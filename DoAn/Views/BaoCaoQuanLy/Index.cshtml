@@ -1,0 +1,286 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/QuanLy.cshtml";
+    var nguyenlieu = (List<DoAn.Models.EF.NguyenLieu>)ViewBag.NguyenLieu;
+}
+
+
+<div class="container">
+    <div class="danhsachsanpham">
+        <div>
+            <h4>Danh sách báo cáo</h4>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                <button type="button" id="themsanpham" class="btn btn-primary" data-toggle="modal" data-target="#modalsanpham" onclick="clearTextBox()">Thêm mới</button><br /><br />
+            </div>
+        </div>
+
+
+
+        <table class="table table-bordered table-hover" width="100%">
+            <thead>
+                <tr>
+                    <th width="5%">
+                        STT
+                    </th>
+
+                    <th width="10%">
+                        Ngày
+                    </th>
+                    <th width="10%">
+                        Số lượng
+                    </th>
+                    <th width="60%">
+                        Ghi chú
+                    </th>
+                    <th width="5%">
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody class="tbody"></tbody>
+        </table>
+        <div class="card-footer">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="load-pagination"></ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="modal fade " id="modalsanpham" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Thêm báo cáo mới</h4>
+                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
+
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" class="form-control" id="idbaocao" placeholder="" style="display:none;" />
+                    @*<div class="form-group row">
+                        <label for="NoiDung" class="col-md-2">Ghi chú</label>
+                        
+                        <textarea type="text" class="form-control col-md-9" id="ghichu" placeholder="nhập ghi chú" rows="5"/></textarea>
+                        <div class="col-md-1"></div>
+                    </div>*@
+                    <div class="row">
+                        @foreach(var item in nguyenlieu)
+                        {
+                            <div class="col-md-6 row nguyenlieu-quanly">
+                                <div class="col-md-7">
+                                    <span class="tennguyenlieu">@item.TenNguyenLieu</span>
+                                    <span class="tendonvi">(@item.DonViTinh)</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" name="ten_sl_nguyenlieu" value="@item.TenNguyenLieu" id="ten_soluong_nguyenlieu" style="display:none;"/>
+                                    <input type="text" name="soluongnguyenlieu" id="soluongnguyenlieu" value="" class="form-control"/>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAdd">Add</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnUpdate" style="display:none;">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnclosesanpham">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section baocaochinhanh{
+    <script>
+
+
+        $(document).ready(function (e) {
+
+            loaddata(null,1);
+        });
+        function loaddata(txtSeach, page) {
+
+            $.ajax({
+                url: "/BaoCaoQuanLy/List",
+                type: "GET",
+                data: {page: page },
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td width="5%" class="table-center">' + item.STT+ '</td>';
+                        html += '<td width="10%" class="table-center">' + item.NgayBaoCaoShow + '</td>';
+                        html += '<td width="10%" class="table-center">' + item.TongSoLuong + '</td>';
+                        html += '<td width="60%" >' + item.GhiChu + '</td>';
+                        html += '<td width="5%" >  <a href="#"   onclick="Delete(' + item.Id + ')">Xóa</a></td>';
+                        html += '</tr>';
+                        var pagination_string = "";
+                        var pageCurrent = result.pageCurrent;
+                        var numSize = result.numSize;
+
+                        //create button previous
+                        if (pageCurrent > 1) {
+                            var pagePrevious = pageCurrent - 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + pagePrevious + '>Previous</a></li>';
+                        }
+
+                        for (i = 1; i <= numSize; i++) {
+                            if (i == pageCurrent) {
+                                pagination_string += '<li class="page-item active"><a href="" class="page-link" data-page=' + i + '>' + pageCurrent + '</a></li>';
+                            } else {
+                                pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + i + '>' + i + '</a></li>';
+                            }
+                        }
+
+                        //create button next
+                        if (pageCurrent > 0 && pageCurrent < numSize) {
+                            var pageNext = pageCurrent + 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link"  data-page=' + pageNext + '>Next</a></li>';
+                        }
+
+                        //load pagination
+                        $("#load-pagination").html(pagination_string);
+
+                    });
+                    $('.tbody').html(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        $("body").on("click", ".pagination li a", function (event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+
+            //load event pagination
+
+            loaddata(page);
+
+
+        });
+
+        $('#btnAdd').click(function () {
+
+
+           
+            var mang = [], lst=[], result=[];
+
+            $('input[name="soluongnguyenlieu"]').each(function (i) {
+                mang[i] = $(this).val();
+            });
+            $('input[name="ten_sl_nguyenlieu"]').each(function (i) {
+                lst[i] = $(this).val();
+            });
+            var i, l = Math.min(mang.length, lst.length);
+            for (i = 0; i < l; i++) {
+                result.push(lst[i], mang[i]);
+            }
+            result.push(...lst.slice(l), ...mang.slice(l));
+            var mota = '';
+            for (var i = 0; i < result.length; i++) {
+                
+                if (i % 2 == 1) {
+                    mota += result[i] + ', '
+                }
+                else {
+                    mota += result[i] + ':';
+                }
+            }
+            
+            mota = mota.substring(0, mota.length -2);
+
+            alert(mota);
+
+             var res = validate();
+            if (res == false) {
+                return false;
+            }
+            var empObj = {
+                GhiChu: mota,
+            };
+            $.ajax({
+                url: "/BaoCaoQuanLy/Add",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    loaddata(null, 1);
+                    alert('Bạn đã thêm mới thành công');
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            
+        });
+
+        function Delete(ID) {
+            var ans = confirm("Bạn có chắc muốn xóa không?");
+            if (ans) {
+                $.ajax({
+                    url: "/BaoCaoQuanLy/Delete/" + ID,
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        loaddata(null, 1);
+                        alert('Bạn đã xóa báo cáo thành công');
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        }
+
+        function clearTextBox() {
+
+            $('#idchinhanh').val("");
+            $('#tenchinhanh').val("");
+            $('#diachichinhanh').val("");
+
+            $('#myModalLabel').text('Thêm báo cáo mới');
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();
+        }
+        //Valdidation using jquery
+        function validate() {
+            var isValid = true;
+            if ($('#tenchinhanh').val()== "") {
+                $('#tenchinhanh').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#tenchinhanh').css('border-color', 'lightgrey');
+            }
+
+
+            if ($('#diachichinhanh').val() == "") {
+                $('#diachichinhanh').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#diachichinhanh').css('border-color', 'lightgrey');
+            }
+            return isValid;
+        }
+    </script>
+
+}

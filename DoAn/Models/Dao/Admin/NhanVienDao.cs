@@ -29,7 +29,7 @@ namespace DoAn.Models.Dao.Admin
             nhanvien.TenDangNhap = nv.TenDangNhap;
             nhanvien.HoTen = nv.HoTen;
             nhanvien.MaChiNhanh = nv.MaChiNhanh;
-            nhanvien.MaChucVu = nv.MaChucVu;
+            nhanvien.MaChucVu =3;
             nhanvien.MatKhau = DoAn.Common.Function.Encrytor.MD5Hash("123456");
             db.NhanViens.Add(nhanvien);
             db.SaveChanges();

@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "DoanhThuTheoNgay_ChiNhanh";
+    Layout = "~/Views/Shared/Admin.cshtml";
+    var lst_doanhthucacthang = (List<DoAn.Models.Model.Admin.DoanhThuModel>)ViewBag.Doanh;
+}
+<div class="container mt-3">
+    <div class="thongkedoanhthu">
+        <span>
+            THỐNG KÊ DOANH THU THEO CHI NHÁNH
+        </span>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xl-7">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+        <div class="col-xl-5">
+            <br />
+            <span>Chọn tháng cần thống kê</span>
+            <hr />
+            <input type="month" name="" value="" class="form-control" id="thang_baocao"/>
+            
+            <br />
+            <div class="table-center row">
+                <div class="col-xl-5 col-md-5"></div>
+                <div class="col-xl-2 col-md-5">
+                    <button href="#" class="btn btn-primary" id="btn-duyet-thongkehd">Duyệt</button>
+                </div>
+                <div class="col-xl-5 col-md-5"></div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+@section doanhthu{
+    <script>
+        window.onload = function () {
+            $('#btn-duyet-thongkehd').on('click', function () {
+                var thang = $('#thang_baocao').val();
+                console.log(thang);
+                window.location.href = '/DoanhThuAdmin/DoanhThuTheoNgay_ChiNhanh?thang=' + thang ;
+            });
+            var chart = new CanvasJS.Chart("chartContainer", {
+	            animationEnabled: true,
+	            theme: "light1",
+
+	            axisY: {
+		            scaleBreaks: {
+			            autoCalculate: true,
+			            type: "wavy",
+			            lineColor: "black"
+		            },
+		            gridThickness: 0,
+		            suffix: "đ"
+	            },
+	            data: [{
+		            type: "column",
+		            indexLabel: "{y}đ",
+		            dataPoints:  @Html.Raw(ViewBag.DoanhThuTheoNgay)
+	            }]
+            });
+            chart.render();
+        }
+    </script>
+
+}
+

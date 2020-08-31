@@ -1,0 +1,38 @@
+﻿@model List<DoAn.Models.Model.Admin.SanPhamModel>
+<br />
+<ul>
+    <li class="danhmucsanpham-title">
+        <span class="">
+            Sản phẩm bán chạy
+        </span>
+    </li>
+</ul>
+<br />
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-12 ct-sp">
+            <a href="/SanPham/ChiTietSanPham?masanpham=@item.Id">
+                <img src="@Url.Content("~/Content/images/"+item.Anh)" width="50%" /> <br />
+                <span href="" class="ten-sp">@item.Ten</span> <br />
+                <span class="giaban">@String.Format("{0:0,0}", @item.GiaBan)đ</span> &nbsp;
+                <span class="giakm">@String.Format("{0:0,0}", @item.KhuyenMai)đ</span>
+                <br />
+                @if (item.PhanTramKM == "0%")
+                {
+
+                }
+                else
+                {
+                    <span class="banchay-khuyenmai">@item.PhanTramKM</span> <br />
+                }
+            </a>
+            
+            <a  href="/Home/MuaNgay?productid=@item.Id" class="btn btn-primary">Mua Ngay</a>
+           
+        </div>
+        
+    }
+</div>
+
+

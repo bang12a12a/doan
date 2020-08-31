@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Admin.cshtml";
+    var nguyenlieu = (List<DoAn.Models.EF.NguyenLieu>)ViewBag.NguyenLieu;
+}
+@model List<DoAn.Models.Model.Admin.BaoCaoAdminModel>
+<div class="container">
+    <div class="danhsachsanpham">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Danh sách báo cáo của chi nhánh ngày @ViewBag.NgayBaoCao</h5>
+            </div>
+            <div class="col-md-4">
+                <input type="date" name="name" value="" class="form-control" id="ngaybaocaochinhanh"/>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" id="xem-baocaochinhanh">Xem</button>
+            </div>
+           
+        </div>
+        <hr />
+        <table class="table table-bordered table-hover table-responsive" width="100%">
+            <thead>
+                <tr>
+                    <th width="5%">
+                        Chi nhánh
+                    </th>
+                   
+                    <th width="10%">
+                        Số lượng bán
+                    </th>
+                    <th width="10%">
+                        Doanh thu
+                    </th>
+                    @foreach (var item in nguyenlieu)
+                    {
+                        <th width="10%">
+                            @item.TenNguyenLieu
+                        </th>
+                    }
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@item.TenChiNhanh</td>
+                        <td>@item.SoLuongBan</td>
+                        <td>@item.DoanhThu</td>
+                        <td>@item.NguyenLieu1</td>
+                        <td>@item.NguyenLieu2</td>
+                        <td>@item.NguyenLieu3</td>
+                        <td>@item.NguyenLieu4</td>
+                        <td>@item.NguyenLieu5</td>
+                        <td>@item.NguyenLieu6</td>
+                        <td>@item.NguyenLieu7</td>
+                        <td>@item.NguyenLieu8</td>
+                        <td>@item.NguyenLieu9</td>
+                        <td>@item.NguyenLieu10</td>
+                        <td>@item.NguyenLieu11</td>
+                        <td>@item.NguyenLieu12</td>
+                        <td>@item.NguyenLieu13</td>
+                        <td>@item.NguyenLieu14</td>
+                        <td>@item.NguyenLieu15</td>
+                        <td>@item.NguyenLieu16</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="card-footer">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="load-pagination"></ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
+@section baocaochinhanh{
+    <script>
+        $('#xem-baocaochinhanh').click(function () {
+            var ngaybaocao = $('#ngaybaocaochinhanh').val();
+            window.location.href = '/BaoCaoAdmin/Index?ngay=' + ngaybaocao;
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+

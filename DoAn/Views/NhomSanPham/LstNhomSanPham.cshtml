@@ -1,0 +1,22 @@
+﻿@model List<DoAn.Models.EF.LoaiSanPham>
+<ul>
+    <li class="danhmucsanpham-title">
+        <span class="">
+            Danh mục sản phẩm
+        </span>
+    </li>
+
+    @foreach (var item in Model)
+    {
+        <a href="/SanPham/Index?maloai=@item.Id" class="danhmucsanpham-content">
+            <li>
+                @item.TenLoaiSanPham
+            </li>
+        </a>
+    }
+    <a href="/SanPham/Index" class="danhmucsanpham-content">
+        <li>
+            Xem tất cả
+        </li>
+    </a>
+</ul>
